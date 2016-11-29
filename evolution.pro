@@ -21,3 +21,6 @@ HEADERS  += evolution.h \
     fieldcell.h \
     lifecell.h \
     defines.h
+
+RESOURCES += \
+    res.qrc

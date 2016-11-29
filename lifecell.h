@@ -30,6 +30,7 @@ private:
     quint8              codeSteps=0;
     quint8              toNextCommand=1;
 
+    quint8              turnedSide = 3;
 public:
 
     QGraphicsTextItem   *_DNAInfo;
@@ -40,15 +41,20 @@ public:
     void    feedCell();
     void    killCell();
     bool    isDead();
+
     void    decrementHealth();
     void    incrementHealth();
     quint8  getHealth();
+
     QPoint  getFieldPos();
     void    moveToFieldPos(QPoint newPos);
+
     bool    runCode();
     void    move(QString way);
     int     check(QString way);
     void    changePoison(QString way);
+
+    void    changeTurning();
     void    makeMutations();
 
     void mousePressEvent(QMouseEvent *event);

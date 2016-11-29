@@ -54,20 +54,24 @@ bool LifeCell::runCode()
         }
         switch(_DNA[codePoint])
         {
-        case(moveRight):    move("right"); codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
-        case(moveLeft):     move("left");  codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
-        case(moveUp):       move("up");    codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
-        case(moveDown):     move("down");  codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
+        case(moveFront):    move("front");              codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
+        case(moveLeft):     move("front");              codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
+        case(moveRight):    move("front");              codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
+        case(moveBack):     move("front");              codePoint+=toNextCommand; codeSteps = maxCodeSteps ;  break;
 
-        case(checkRight):   codePoint+=check("right"); codeSteps+=1; break;
-        case(checkLeft):    codePoint+=check("left");  codeSteps+=1; break;
-        case(checkUp):      codePoint+=check("up");    codeSteps+=1; break;
-        case(checkDown):    codePoint+=check("down");  codeSteps+=1; break;
+        case(checkFront):   codePoint+=check("front");  codeSteps+=1; break;
+        case(checkLeft):    codePoint+=check("front");  codeSteps+=1; break;
+        case(checkRight):   codePoint+=check("front");  codeSteps+=1; break;
+        case(checkBack):    codePoint+=check("front");  codeSteps+=1; break;
 
-        case(poisonRight):  changePoison("right"); codePoint+=toNextCommand; codeSteps+=1; break;
-        case(poisonLeft):   changePoison("left");  codePoint+=toNextCommand; codeSteps+=1; break;
-        case(poisonUp):     changePoison("up");    codePoint+=toNextCommand; codeSteps+=1; break;
-        case(poisonDown):   changePoison("down");  codePoint+=toNextCommand; codeSteps+=1; break;
+        case(poisonFront):  changePoison("front");      codePoint+=toNextCommand; codeSteps+=1; break;
+        case(poisonLeft):   changePoison("front");      codePoint+=toNextCommand; codeSteps+=1; break;
+        case(poisonRight):  changePoison("front");      codePoint+=toNextCommand; codeSteps+=1; break;
+        case(poisonBack):   changePoison("front");      codePoint+=toNextCommand; codeSteps+=1; break;
+
+        case(turnRight):    turnedSide = (turnedSide+1)%3; changeTurning(); codePoint+=toNextCommand; codeSteps+=1; break;
+        case(turnLeft):     turnedSide = (turnedSide+3)%3; changeTurning(); codePoint+=toNextCommand; codeSteps+=1; break;
+        case(turnBack):     turnedSide = (turnedSide+2)%3; changeTurning(); codePoint+=toNextCommand; codeSteps+=1; break;
         }
         if(codePoint>=commandSize)
             codePoint-=commandSize;
@@ -82,10 +86,17 @@ void LifeCell::move(QString way)
         tempX++;
     else if(way=="left")
         tempX--;
-    else if(way=="up")
+    else if(way=="front")
         tempY--;
-    else if(way=="down")
+    else if(way=="back")
         tempY++;
+
+    switch(turnedSide)
+    {
+    case(turnedRight): tempX++; tempY++; break;
+    case(turnedLeft):  tempX--; tempY++; break;
+    case(turnedDown):  tempY++; break;
+    }
 
     if((tempX < 0) || (tempX >= fieldSizeX))          //перевірка чи не виходить за поле це поле
         return;
@@ -107,10 +118,17 @@ int LifeCell::check(QString way)
         tempX++;
     else if(way=="left")
         tempX--;
-    else if(way=="up")
+    else if(way=="front")
         tempY--;
-    else if(way=="down")
+    else if(way=="back")
         tempY++;
+
+    switch(turnedSide)
+    {
+    case(turnedRight): tempX++; tempY++; break;
+    case(turnedLeft):  tempX--; tempY++; break;
+    case(turnedDown):  tempY++; break;
+    }
 
     if((tempX < 0) || (tempX >= fieldSizeX))          //перевірка чи не виходить за поле це поле
         return itsWall;
@@ -152,10 +170,17 @@ void LifeCell::changePoison(QString way)
         tempX++;
     else if(way=="left")
         tempX--;
-    else if(way=="up")
+    else if(way=="front")
         tempY--;
-    else if(way=="down")
+    else if(way=="back")
         tempY++;
+
+    switch(turnedSide)
+    {
+    case(turnedRight): tempX++; tempY++; break;
+    case(turnedLeft):  tempX--; tempY++; break;
+    case(turnedDown):  tempY++; break;
+    }
 
     if((tempX < 0) || (tempX >= fieldSizeX))          //перевірка чи не виходить за поле це поле
         return;
@@ -237,4 +262,23 @@ void LifeCell::mousePressEvent(QMouseEvent *event)
 void LifeCell::makeMutations()
 {
     _DNA[qrand()%maxMemory] = qrand()%commandSize;
+}
+
+void LifeCell::changeTurning()
+{
+    quint8 roter;
+    switch(turnedSide)
+    {
+    case(turnedLeft):   roter = 180;    break;
+    case(turnedRight):  roter = 0;      break;
+    case(turnedTop):    roter = 90;     break;
+    case(turnedDown):   roter = 270;    break;
+    }
+
+    QTransform trans;
+    QPixmap pix = this->pixmap();
+    trans.translate(pix.width()/2.0 , pix.height()/2.0);
+    trans.rotate(this->rotation()+roter);
+    trans.translate(-pix.width()/2.0 , -pix.height()/2.0);
+    setTransform(trans);
 }

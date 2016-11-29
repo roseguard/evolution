@@ -11,12 +11,12 @@ Evolution::Evolution(QWidget *parent)
     scene = new QGraphicsScene(this);
     setScene(scene);
 
-    poisons = new QPixmap(QPixmap("D:/poison.png").scaled(desk.width()/fieldSizeX*0.80, desk.height()/fieldSizeY*0.80));
-    foods = new QPixmap(QPixmap("D:/food.png").scaled(desk.width()/fieldSizeX*0.80, desk.height()/fieldSizeY*0.80));
-    walls = new QPixmap(QPixmap("D:/wall.jpg").scaled(desk.width()/fieldSizeX*0.80, desk.height()/fieldSizeY*0.80));
-    QPixmap pix = QPixmap("D:/cell.jpg").scaled(desk.width()/fieldSizeX*0.95, desk.height()/fieldSizeY*0.95);
+    poisons = new QPixmap(QPixmap(":img/poison.png").scaled(desk.width()/fieldSizeX*0.80, desk.height()/fieldSizeY*0.80));
+    foods = new QPixmap(QPixmap(":img/food.png").scaled(desk.width()/fieldSizeX*0.80, desk.height()/fieldSizeY*0.80));
+    walls = new QPixmap(QPixmap(":img/wall.jpg").scaled(desk.width()/fieldSizeX*0.80, desk.height()/fieldSizeY*0.80));
+    QPixmap pix = QPixmap(":img/cell.jpg").scaled(desk.width()/fieldSizeX*0.95, desk.height()/fieldSizeY*0.95);
 
-    background = new QGraphicsPixmapItem(QPixmap("D:/back.png").scaled(desk.width(), desk.height()));
+    background = new QGraphicsPixmapItem(QPixmap(":img/back.png").scaled(desk.width(), desk.height()));
     scene->addItem(background);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -35,7 +35,7 @@ Evolution::Evolution(QWidget *parent)
     }
     int fieldX = 0, fieldY = 0;
 
-    pix = QPixmap("D:/life.jpg").scaled(desk.width()/(fieldSizeX+10), desk.height()/(fieldSizeY+10));
+    pix = QPixmap(":img/life.jpg").scaled(desk.width()/(fieldSizeX+10), desk.height()/(fieldSizeY+10));
     LifeCell *newLife;
 
     for(int i = 0; i < lifesAtStart; i++)
@@ -211,7 +211,7 @@ void Evolution::nextAge()
     for(int x = 0; x < fieldSizeX; x++)
         for(int y = 0; y < fieldSizeY; y++)
             delete fields[x][y];
-    QPixmap pix = QPixmap("D:/cell.jpg").scaled(desk.width()/fieldSizeX*0.95, desk.height()/fieldSizeY*0.95);
+    QPixmap pix = QPixmap(":img/cell.jpg").scaled(desk.width()/fieldSizeX*0.95, desk.height()/fieldSizeY*0.95);
     for(int x = 0; x < fieldSizeX; x++)
     {
         for(int y = 0; y < fieldSizeY; y++)
@@ -268,7 +268,8 @@ void Evolution::nextAge()
                 newLife = new LifeCell(best[whichone]);
                 newLife->_fieldPos = QPoint(fieldX, fieldY);
                 newLife->setPos(fieldX*pixW, fieldY*pixH);
-                newLife->makeMutations();
+                if(i>3)
+                    newLife->makeMutations();
                 fields[fieldX][fieldY]->putLife(newLife);
                 newAge.append(newLife);
                 scene->addItem(newLife);

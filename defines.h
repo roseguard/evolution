@@ -21,10 +21,10 @@
 // Перейти до певної команди в програмі одиниці життя проводиться через значення від 0 до 63, для переходу до відповідного місьця
 
 // Рух
-#define moveLeft    64
-#define moveRight   65
-#define moveUp      66
-#define moveDown    67
+#define moveFront   64
+#define moveLeft    65
+#define moveRight   66
+#define moveBack    67
 
 // Перевірка
 //////
@@ -35,10 +35,10 @@
 /// +4 - їжа
 /// +5 - інший організм
 //////
-#define checkLeft   68
-#define checkRight  69
-#define checkUp     70
-#define checkDown   71
+#define checkFront   68
+#define checkLeft    69
+#define checkRight   70
+#define checkBack    71
 
 #define itsWall     1
 #define itsEmpty    2
@@ -49,52 +49,22 @@
 
 
 // Перетворення з отрути на їжу
-#define poisonLeft  72
-#define poisonRight 73
-#define poisonUp    74
-#define poisonDown  75
+#define poisonFront 72
+#define poisonLeft  73
+#define poisonRight 74
+#define poisonBack  75
 
-#define commandSize 76
+// Поворот відносно себе
+#define turnRight   76
+#define turnLeft    77
+#define turnBack    78
 
+#define turnedTop   1
+#define turnedRight 2
+#define turnedLeft  0
+#define turnedDown  3
 
-//// Перейти до певної команди в програмі одиниці життя проводиться через значення від 0 до 127, для переходу до відповідного місьця
-
-//// Рух
-//#define moveLeft    128
-//#define moveRight   129
-//#define moveUp      130
-//#define moveDown    131
-
-//// Перевірка
-////////
-///// В результаті перевірки переходить на позиції відносно самого себе :
-///// +1 - стіна
-///// +2 - пусто
-///// +3 - отрута
-///// +4 - їжа
-///// +5 - інший організм
-////////
-//#define checkLeft   132
-//#define checkRight  133
-//#define checkUp     134
-//#define checkDown   135
-
-//#define itsWall     1
-//#define itsEmpty    2
-//#define itsPoison   3
-//#define itsFood     4
-//#define itsCreature 5
-//#define itsMax      5
-
-
-//// Перетворення з отрути на їжу
-//#define poisonLeft  136
-//#define poisonRight 137
-//#define poisonUp    138
-//#define poisonDown  139
-
-//#define commandSize 140
-
+#define commandSize 79
 
 #endif // DEFINES
 

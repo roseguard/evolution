@@ -1,2 +1,11 @@
-<RCC/>
-
+<RCC>
+    <qresource prefix="/img">
+        <file>back.png</file>
+        <file>cell.jpg</file>
+        <file>food.png</file>
+        <file>life.jpg</file>
+        <file>nothink.jpg</file>
+        <file>poison.png</file>
+        <file>wall.jpg</file>
+    </qresource>
+</RCC>
